@@ -6,7 +6,7 @@ var express = require('express');
 var path = require('path');
 
 // 라우터 추가
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/api/index');
 var usersRouter = require('./routes/users');
 var setRouter = require('./routes/set');
 
@@ -21,7 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // 스태틱 라우터 : 정적리소스를 담을 수 있게 한것 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api',require('./routes/api'))
+app.use(express.static(path.join(__dirname, 'fe','dist')));
 
 // 라우터 사용
 app.use('/', indexRouter);
