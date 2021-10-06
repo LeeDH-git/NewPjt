@@ -10,6 +10,9 @@ var indexRouter = require('./routes/api/index');
 var usersRouter = require('./routes/users');
 var setRouter = require('./routes/set');
 
+//히스토리모드 설치(잘못된 url을 모두 fe/dist를 보내주기 위해)
+const history = require('connect-history-api-fallback')
+
 var app = express();
 
 // view engine setup
@@ -22,8 +25,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // 스태틱 라우터 : 정적리소스를 담을 수 있게 한것 
 //app.use(express.static(path.join(__dirname, 'public')));
-app.use('/api',require('./routes/api'))
-app.use(express.static(path.join(__dirname, 'fe','dist')));
+app.use('/api', require('./routes/api'))
+app.use(history())
+app.use(express.static(path.join(__dirname,'../', 'fe','dist')));
 
 // 라우터 사용
 app.use('/', indexRouter);
