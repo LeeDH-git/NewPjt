@@ -65,6 +65,17 @@ app.post("/login", (req, res) => {
 });
 
 // auth : 미들웨어
-app.get("/api/users/auth", auth, (req, res) => {});
+app.get("/api/users/auth", auth, (req, res) => {
+  res.status(200).json({
+    _id: req.userInfo._id,
+    isAdmin: req.userInfo.role === 0 ? false : true,
+    isAuth: true,
+    email: req.userInfo.email,
+    name: req.userInfo.name,
+    lastname: req.userInfo.lastname,
+    role: req.userInfo.role,
+    image: req.userInfo.image,
+  });
+});
 
 app.listen(port, () => console.log(`exmaple app listening on port ${port}!`));
