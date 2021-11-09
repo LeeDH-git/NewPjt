@@ -31,4 +31,31 @@ app.post("/register", (req, res) => {
   });
 });
 
+app.post("/login", (req, res) => {
+  // 로그인
+  // 1. DB안에서 이메일 찾기
+  User.findOne({ email: req.body.email }, (err, userInfo) => {
+    if (!userInfo) {
+      return res.json({
+        loginSuccess: false,
+        message: "입력된 이메일에 해당하는 유저가 없습니다",
+      });
+    }
+
+    // 2. 검증
+    userInfo.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch)
+        return res.json({
+          loginSuccess: false,
+          message: "비밀번호가 틀렸습니다.",
+        });
+
+      // 3. 맞다면 토큰 생성
+      userInfo.generateToken((err, userInfo) => {
+        if (err) return res.status(400).send(err);
+        // 토큰을 저장. (쿠키,로컬)
+      });
+    });
+  });
+});
 app.listen(port, () => console.log(`exmaple app listening on port ${port}!`));
