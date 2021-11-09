@@ -65,6 +65,8 @@ app.post("/login", (req, res) => {
 });
 
 // auth : 미들웨어
+// role 1 어드민    role 2 특정 부서 어드민
+// role 0 -> 일반유저   role 0이 아니면  관리자
 app.get("/api/users/auth", auth, (req, res) => {
   res.status(200).json({
     _id: req.userInfo._id,
