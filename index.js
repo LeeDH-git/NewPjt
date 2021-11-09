@@ -2,9 +2,10 @@ const express = require("express");
 const app = express();
 const port = 5000;
 const bodyParser = require("body-parser");
-const { User } = require("./models/User");
 const mongoose = require("mongoose");
 const config = require("./config/key");
+const { User } = require("./models/User");
+const { auth } = require("./middleware/auth");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -53,9 +54,17 @@ app.post("/login", (req, res) => {
       // 3. 맞다면 토큰 생성
       userInfo.generateToken((err, userInfo) => {
         if (err) return res.status(400).send(err);
-        // 토큰을 저장. (쿠키,로컬)
+        // 토큰을 저장. (쿠키)
+        res
+          .cookie("x auth", userInfo.token)
+          .status(200)
+          .json({ loginSuccess: true, userId: userInfo._id });
       });
     });
   });
 });
+
+// auth : 미들웨어
+app.get("/api/users/auth", auth, (req, res) => {});
+
 app.listen(port, () => console.log(`exmaple app listening on port ${port}!`));
