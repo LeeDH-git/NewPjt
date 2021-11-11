@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = 5000;
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const config = require("./config/key");
@@ -81,5 +80,7 @@ app.get("/api/users/auth", auth, (req, res) => {
     image: req.userInfo.image,
   });
 });
+
+const port = 5000;
 
 app.listen(port, () => console.log(`exmaple app listening on port ${port}!`));
