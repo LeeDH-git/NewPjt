@@ -81,6 +81,6 @@ app.get("/api/users/auth", auth, (req, res) => {
   });
 });
 
-const port = 5000;
+const port = 3000;
 
 app.listen(port, () => console.log(`exmaple app listening on port ${port}!`));
