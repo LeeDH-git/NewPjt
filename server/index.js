@@ -81,6 +81,16 @@ app.get("/api/users/auth", auth, (req, res) => {
   });
 });
 
+app.get("/api/users/logout", auth, (req, res) => {
+  // console.log('req.user', req.user)
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({
+      success: true,
+    });
+  });
+});
+
 const port = 3000;
 
 app.listen(port, () => console.log(`exmaple app listening on port ${port}!`));
